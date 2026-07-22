@@ -12,11 +12,11 @@ This README is the starting point for anyone joining the project. Read this full
 
 Before touching code, read these docs in `/docs`, in this order:
 
-1. **`InterviewMe_PRD.md`** — what we're building, for whom, and why. Defines must-have vs nice-to-have features and what's explicitly out of scope for v1.
-2. **`InterviewMe_Technical_Architecture.md`** — the tech stack, full folder structure, and complete database schema. This skeleton is built directly from this doc.
-3. **`InterviewMe_Security_and_Access.md`** — authentication approach, user roles, row-level security rules, and error-handling standards. Non-negotiable reading before writing any database query or auth code.
-4. **`InterviewMe_Frontend_Specification.md`** — the design system (colors, type, components) and the full third-party API integration spec (Clerk, Cloudinary, LLM providers).
-5. **`InterviewMe_Feature_Ticket_List.md`** — every feature broken into a buildable ticket with description, acceptance criteria, dependencies, and priority. **This is what you actually work from day to day.**
+1. **[InterviewMe_PRD.md](docs/InterviewMe_PRD.md)** — what we're building, for whom, and why. Defines must-have vs nice-to-have features and what's explicitly out of scope for v1.
+2. **[InterviewMe_Technical_Architecture.md](docs/InterviewMe_Technical_Architecture.md)** — the tech stack, full folder structure, and complete database schema. This skeleton is built directly from this doc.
+3. **[InterviewMe_Security_and_Access.md](docs/InterviewMe_Security_and_Access.md)** — authentication approach, user roles, row-level security rules, and error-handling standards. Non-negotiable reading before writing any database query or auth code.
+4. **[InterviewMe_Frontend_Specification.md](docs/InterviewMe_Frontend_Specification.md)** — the design system (colors, type, components) and the full third-party API integration spec (Clerk, Cloudinary, LLM providers).
+5. **[InterviewMe_Feature_Ticket_List.md](docs/InterviewMe_Feature_Ticket_List.md)** — every feature broken into a buildable ticket with description, acceptance criteria, dependencies, and priority. **This is what you actually work from day to day.**
 
 If a decision in the code seems to contradict one of these docs, the doc wins — flag it in the team channel rather than silently deviating.
 
@@ -105,14 +105,14 @@ pip install PyMuPDF faster-whisper mediapipe librosa
 2. **Check the ticket's Priority label.** Must-have tickets block launch; build these first as a team. Should-have and nice-to-have can be picked up once the must-have list is under control.
 3. **Branch naming:** `epic-letter/ticket-id-short-description`, e.g. `epic-c/c3-interview-screen-recording-flow`.
 4. **Before opening a PR**, check your work against the ticket's **Acceptance Criteria** — this is the actual definition of done, not just "it compiles."
-5. **Every PR touching a database query must be checked against the Security & Access Document's row-level security rules** (Section 3 of that doc) — every read/write must verify the requesting user owns the data. This is the single most important rule in the whole project; a violation here is treated as a blocking issue, not a style note.
-6. **Every user-facing error must follow the Error Handling Guide** in the Security & Access Document (Section 4) — plain language, no raw stack traces, no silent failures.
+5. **Every PR touching a database query must be checked against the [Security & Access Document](docs/InterviewMe_Security_and_Access.md)'s row-level security rules** (Section 3 of that doc) — every read/write must verify the requesting user owns the data. This is the single most important rule in the whole project; a violation here is treated as a blocking issue, not a style note.
+6. **Every user-facing error must follow the Error Handling Guide** in the [Security & Access Document](docs/InterviewMe_Security_and_Access.md) (Section 4) — plain language, no raw stack traces, no silent failures.
 
 ---
 
 ## 5. Design System Quick Reference
 
-Full detail in `InterviewMe_Frontend_Specification.md`. The short version so you don't have to open it for every small styling decision:
+Full detail in [InterviewMe_Frontend_Specification.md](docs/InterviewMe_Frontend_Specification.md). The short version so you don't have to open it for every small styling decision:
 
 - **Colors:** ink-navy (`#0F1420`) dark surfaces, warm paper (`#F6F4EF`) light surfaces, amber spotlight (`#E8A94B`) as the one primary accent. Three fixed score-dimension colors: teal = content, amber = communication, violet = body language — never swap these.
 - **Type:** Fraunces (serif) for the interview question and headline scores only, Inter for everything else, IBM Plex Mono for transcripts/metrics.
@@ -122,10 +122,10 @@ Full detail in `InterviewMe_Frontend_Specification.md`. The short version so you
 
 ## 6. Key Architectural Rules (Don't Skip These)
 
-- **Row-level security, always:** every database query must filter by the requesting user's ownership — no exceptions, even for "internal" calls. See Security doc, Section 3.
+- **Row-level security, always:** every database query must filter by the requesting user's ownership — no exceptions, even for "internal" calls. See [Security doc](docs/InterviewMe_Security_and_Access.md), Section 3.
 - **Routes are thin, services hold logic.** See Section 2 above.
-- **Every LLM/speech/vision call must degrade gracefully, never crash the session.** If body-language analysis fails, the interview continues and the report just shows that section as unavailable. See PRD Section 8 (Non-Functional Requirements) and Security doc Section 4.
-- **Frontend never calls the LLM, Faster-Whisper, or MediaPipe directly** — those only run through the backend. The frontend only talks directly to Clerk (auth) and Cloudinary (file upload). See Frontend Spec, Part 2.
+- **Every LLM/speech/vision call must degrade gracefully, never crash the session.** If body-language analysis fails, the interview continues and the report just shows that section as unavailable. See [PRD](docs/InterviewMe_PRD.md) Section 8 (Non-Functional Requirements) and [Security doc](docs/InterviewMe_Security_and_Access.md) Section 4.
+- **Frontend never calls the LLM, Faster-Whisper, or MediaPipe directly** — those only run through the backend. The frontend only talks directly to Clerk (auth) and Cloudinary (file upload). See [Frontend Spec](docs/InterviewMe_Frontend_Specification.md), Part 2.
 - **No API keys in frontend code, ever**, except the ones explicitly meant to be public (`VITE_CLERK_PUBLISHABLE_KEY`, `VITE_CLOUDINARY_CLOUD_NAME`). If a secret key ever needs a `VITE_` prefix to work, that's a sign something is architected wrong — stop and flag it.
 
 ---
