@@ -1,0 +1,13 @@
+Flask==3.0.3
+Flask-SQLAlchemy==3.1.1
+Flask-CORS==4.0.1
+python-dotenv==1.0.1
+psycopg2-binary==2.9.9
+alembic==1.13.2
+gunicorn==22.0.0
+
+# AI / processing dependencies (add as you build each service)
+# PyMuPDF==1.24.9
+# faster-whisper==1.0.3
+# mediapipe==0.10.14
+# librosa==0.10.2
